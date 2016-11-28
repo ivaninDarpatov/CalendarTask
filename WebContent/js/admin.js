@@ -16,13 +16,17 @@ function initialize() {
 		var endCol = document.createElement("td");
 		var costCol = document.createElement("td");
 
-		startCol.setAttribute("class", "res_cell");
-		endCol.setAttribute("class", "res_cell");
+		startCol.setAttribute("class", "res_start");
+		endCol.setAttribute("class", "res_end");
 		costCol.setAttribute("class", "res_cost");
 		
 		startCol.innerHTML = startDate;
 		endCol.innerHTML = endDate;
 		costCol.innerHTML = cost;
+		
+		if (i == reservations.length - 1) {
+			startCol.setAttribute("id", "start_last");
+		}
 
 		row.appendChild(startCol);
 		row.appendChild(endCol);

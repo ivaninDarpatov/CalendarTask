@@ -1,17 +1,22 @@
 @CHARSET "ISO-8859-1";
 
 #parent {
-	width: 100%;
 	height: 100%;
 }
 
 .row {
 	width: 100%;
-	height: 20%;
 }
 
-.row#menu {
-	height: 10%;
+.row#head {
+	height: 5%;
+	text-align: center;
+}
+
+#menu {
+	background-color: #9BB4BF;
+	display: inline-block;
+	width: 100%;
 	text-align: center;
 }
 
@@ -20,6 +25,8 @@
 }
 
 #cal_container {
+	border: 2px solid black;
+	border-radius: 25px;
 	float: left;
 	height: 100%;
 	width: 80%;
@@ -27,18 +34,44 @@
 }
 
 .cal_nav {
+	background-color: #BABABA;
 	width: 5%;
 	height: 100%;
 	float: left;
 }
 
+.empty_top {
+	width: 100%;
+	height: 45%;
+}
+
+.nav_img {
+    width: 100%;
+    height: 10%;
+}
+
+.arrow {
+	width: 100%;
+	height: 100%;
+}
+
+.cal_nav#back {
+	border-radius: 25px 0px 0px 25px;
+}
+
+.cal_nav#forward {
+	border-radius: 0px 25px 25px 0px;
+}
+
 #calendar {
+	background-color: #E4E3F7;
 	width: 90%;
 	height: 100%;
 	float: left;
 }
 
 .cal_title {
+	background-color: #9BB4BF;
 	width: 50%;
 	height: 5%;
 	float: left;
@@ -62,11 +95,27 @@
 	height: 16.6%;
 }
 
+.row#res_info {
+	height: 20%;
+}
+
 .res_info {
 	width: 50%;
 	height: 100%;
 	float: left;
 	position: relative;
+}
+
+.stats_meta {
+	border-radius: 15px 0px 0px 15px;
+	border: 1px solid black;
+	background-color: #9BB4BF;
+}
+
+.res_stats {
+	text-align: center;
+	border-color: black;
+	border-radius: 10px;
 }
 
 #prices_container {
@@ -79,4 +128,10 @@
 	position: absolute;
 	right: 20%;
 	bottom: 10%;
+}
+
+#reserve {
+	border-radius: 0px 15px 15px 0px;
+	border: 1px solid black;
+	background-color: #9BB4BF;
 }

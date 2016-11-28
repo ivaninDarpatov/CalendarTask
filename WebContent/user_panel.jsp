@@ -13,71 +13,86 @@
 
 <!-- JS -->
 <script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/home.js"></script>
 
 </head>
 <body onload="initialize()">
 	<input id="reserved_hidden" type="hidden" value='${reservedDates}' />
 	<input id="prices_hidden" type="hidden" value='${prices}' />
 
-	<div id="parent" style="background-color: yellow">
-		<div id="menu" class="row" onclick="document.location.href = './';">BACK</div>
-		<div id="cal_area" class="row" style="background-color: black">
+	<div id="parent">
+		<div id="head" class="row">
+			<div id="menu" onclick="document.location.href = './';"
+							onmouseover="highlight('menu')"
+							onmouseout="deHighlight('menu')">BACK</div>
+		</div>
+		<div id="cal_area" class="row">
 			<div id="cal_container" class="cal_row"
 				style="background-color: green">
-				<div class="cal_nav" onclick="previousMonth()"
-					style="background-color: yellow"></div>
-
-				<div id="calendar" style="background-color: green">
-					<div id="month" class="cal_title" style="background-color: blue"></div>
-
-					<div id="year" class="cal_title" style="background-color: purple"></div>
-
-					<div id="days" style="background-color: orange"></div>
+				<div id="back" class="cal_nav" onclick="previousMonth()">
+					<div class="empty_top"></div>
+					<div id="left_arrow" class="nav_img">
+						<img class="arrow" src="static/img/left_arrow.png">
+					</div>
 				</div>
 
-				<div class="cal_nav" onclick="nextMonth()"
-					style="background-color: yellow"></div>
+				<div id="calendar">
+					<div id="month" class="cal_title"></div>
+
+					<div id="year" class="cal_title"></div>
+
+					<div id="days"></div>
+				</div>
+
+				<div id="forward" class="cal_nav" onclick="nextMonth()">
+					<div id="right_arrow" class="empty_top"></div>
+					<div class="nav_img">
+						<img class="arrow" src="static/img/right_arrow.png">
+					</div>
+				</div>
 			</div>
 		</div>
 
-		<div id="res_info" class="row" style="background-color: blue">
-			<div id="prices" class="res_info" style="background-color: grey">
-				<div id="prices_container" style="background-color: blue">
+		<div id="res_info" class="row">
+			<div id="prices" class="res_info">
+				<div id="prices_container" class="stats_container">
 					<table>
 						<tr>
-							<td>weekday:</td>
-							<td><input id="weekday" type="text" value="1" disabled>
+							<td class="stats_meta"><label>weekday:</label></td>
+							<td><input id="weekday" class="res_stats" type="text" value="1" disabled>
 							</td>
 						</tr>
 						<tr>
-							<td>weekend:</td>
-							<td><input id="weekend" type="text" value="2" disabled>
+							<td class="stats_meta"><label>weekend:</label></td>
+							<td><input id="weekend" class="res_stats" type="text" value="2" disabled>
 							</td>
 						</tr>
 					</table>
 				</div>
 			</div>
 
-			<div id="reservation" class="res_info"
-				style="background-color: purple">
-				<div id="res_container" style="background-color: red">
+			<div id="reservation" class="res_info">
+				<div id="res_container" class="stats_container">
 					<table>
 						<tr>
-							<td><label>start:</label></td>
-							<td><input id="start" type="text" value="0" disabled>
+							<td class="stats_meta"><label>start:</label></td>
+							<td><input id="start" class="res_stats" type="text" value="0" disabled>
 							</td>
-							<td rowspan="3">
-								<button onclick="reserveSelected()">RESERVE</button>
-							</td>
-						</tr>
-						<tr>
-							<td><label>end:</label></td>
-							<td><input id="end" type="text" value="0" disabled>
+							<td id="reserve" onclick="reserveSelected()"
+											onmouseover="highlight('reserve')"
+											onmouseout="deHighlight('reserve')"
+											rowspan="3">
+								RESERVE
 							</td>
 						</tr>
 						<tr>
-							<td><label>cost:</label></td>
-							<td><input id="cost" type="text" value="0" disabled>
+							<td class="stats_meta"><label>end:</label></td>
+							<td><input id="end" class="res_stats" type="text" value="0" disabled>
+							</td>
+						</tr>
+						<tr>
+							<td class="stats_meta"><label>cost:</label></td>
+							<td><input id="cost" class="res_stats" type="text" value="0" disabled>
 							</td>
 						</tr>
 					</table>

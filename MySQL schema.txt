@@ -1,0 +1,55 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema calendar
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `calendar` ;
+
+-- -----------------------------------------------------
+-- Schema calendar
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `calendar` DEFAULT CHARACTER SET utf8 ;
+USE `calendar` ;
+
+-- -----------------------------------------------------
+-- Table `calendar`.`prices`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `calendar`.`prices` ;
+
+CREATE TABLE IF NOT EXISTS `calendar`.`prices` (
+  `day_type` VARCHAR(15) NOT NULL,
+  `price` FLOAT NULL DEFAULT NULL,
+  PRIMARY KEY (`day_type`),
+  UNIQUE INDEX `day_type_UNIQUE` (`day_type` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `calendar`.`reservations`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `calendar`.`reservations` ;
+
+CREATE TABLE IF NOT EXISTS `calendar`.`reservations` (
+  `reservations_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `cost` FLOAT NULL DEFAULT NULL,
+  PRIMARY KEY (`reservations_id`),
+  UNIQUE INDEX `start_date_UNIQUE` (`start_date` ASC),
+  UNIQUE INDEX `end_date_UNIQUE` (`end_date` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 43
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

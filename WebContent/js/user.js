@@ -90,6 +90,7 @@ function printCalendar() {
 
 		for (var j = 0; j < calendar2D[i].length; j++) {
 			var cell = document.createElement("td");
+			cell.style = "background-color: black";
 
 			if (i == 0 && firstDay.getDay() % 7 == (j + 1) % 7) {
 				print = true;
@@ -97,12 +98,22 @@ function printCalendar() {
 
 			if (print && date <= lastDay.getDate()) {
 				var dateString = dateToString(year, month, date);
+				cell.style.background = "#DCFEE9";
+				
+				if (j % 7 == 5 || j % 7 == 6) {
+					cell.style.background = "#BCDDC9";
+				}
+				
 				cell.id = dateString;
 				cell.innerHTML = date++;
 				cell.realDate = new Date(cell.id);
 				cell.onmouseover = function() {
-					if (sDate == 0) {
-						this.style = "border-color:white";
+					if (isReserved(this.id)) {
+						this.style.cursor = "not-allowed";
+					}
+  					if (sDate == 0) {
+						highlight(this.id);
+						this.style.color = "black";
 					} else {
 						this.markDates();
 						selectDates();
@@ -111,7 +122,7 @@ function printCalendar() {
 				}
 				cell.onmouseout = function() {
 					if (sDate == 0) {
-						this.style = "border-color:black";
+						deHighlight(this.id);
 						reserveDates();
 					}
 				}
@@ -122,9 +133,8 @@ function printCalendar() {
 					
 					if (sDate == 0) {
 						sDate = this.id;
-						this.style = "border-color:white";
-					} else {
-						
+						this.style.borderColor = "white";
+					} else {						
 						if (sDate == this.id) {
 							if (eDate == this.id) {
 								sDate = 0;
@@ -138,6 +148,7 @@ function printCalendar() {
 						} else {
 							if (eDate == this.id) {
 								eDate = 0;
+								printCalendar();
 							} else {
 								if (containsReserved(sDate, this.id)) {
 									return;
@@ -148,6 +159,7 @@ function printCalendar() {
 								selectDates();
 							}
 						}
+						printCalendar();
 					}
 					calculateCost();
 				}
@@ -158,7 +170,8 @@ function printCalendar() {
 						
 						for (var count = 0; count < unmarkedDates.length; count++) {
 							var cellID = dateToString(unmarkedDates[count].getFullYear(), unmarkedDates[count].getMonth(), unmarkedDates[count].getDate());
-							document.getElementById(cellID).style = "";
+							
+							document.getElementById(cellID).style.borderColor= "black";
 						}
 					}
 					
@@ -224,12 +237,12 @@ function printCalendar() {
 						
 						for (var count = 0; count < markedDates.length; count++) {
 							var cellID = dateToString(markedDates[count].getFullYear(), markedDates[count].getMonth(), markedDates[count].getDate());
-							document.getElementById(cellID).style = "border-color: white";
+							document.getElementById(cellID).style.borderColor = "white";
 						}
 						
 						for (var count = 0; count < unmarkedDates.length; count++) {
 							var cellID = dateToString(unmarkedDates[count].getFullYear(), unmarkedDates[count].getMonth(), unmarkedDates[count].getDate());
-							document.getElementById(cellID).style = "border-color: black";
+							document.getElementById(cellID).style.borderColor = "black";
 						}
 					}
 					reserveDates();	
@@ -284,7 +297,14 @@ function reserveDates() {
 	for (var i = 0; i < reservedDates.length; i++) {
 		if (reservedDates[i].year == year && reservedDates[i].month - 1 == month) {
 			var cellID = dateToString(year, month, reservedDates[i].day);
-			document.getElementById(cellID).style = "background-color: black";
+			var el = document.getElementById(cellID);
+			var jsDay = new Date(cellID);
+			
+			if (jsDay.getDay() == 6 || jsDay.getDay() == 0) {
+				el.style.background = "#515151";
+			} else {
+				el.style.background = "#8E8E8E";
+			}
 		}
 	}
 }
@@ -306,7 +326,15 @@ function selectDates() {
 			if (selectedDates[i].getMonth() == month) {
 				var cellID = dateToString(year, month, selectedDates[i].getDate());
 				if (!isReserved(cellID)) {
-					document.getElementById(cellID).style = "background-color: pink; border-color: black";
+					var el = document.getElementById(cellID);
+					var jsDay = new Date(cellID);
+					
+					if (jsDay.getDay() == 6 || jsDay.getDay() == 0) {
+						el.style.background = "#134827";
+					} else {
+						el.style.background = "#2F8C53";
+					}
+					el.style.borderColor = "black";
 				}
 			}
 		}
@@ -417,10 +445,11 @@ function calculateCost() {
 	}
 }
 
-function reserveSelected() {
+function reserveSelected() {	
 	var from = document.getElementById("start").value;
 	var to = document.getElementById("end").value;
 	var cost = document.getElementById("cost").value;
+	
 	var newRes = new Array();
 	newRes.push(from);
 	newRes.push(to);
