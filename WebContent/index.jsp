@@ -4,16 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Home Page</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="static/reset.css">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/home.css">
+
 </head>
 <body>
-<a href="./user">User Panel</a>
-<br/>
-Admin Panel
-<br/>
-<form action="./admin" method="POST">
-	<input type="password" name="password"/>
-	<button>Send</button>
-</form>
+<div id="parent" style="background-color:yellow">
+	<div id="empty_top"></div>
+	<div id="menu" style="background-color:blue">
+		<div id="user_page" class="menu_option" onclick="document.location.href = './user';" style="background-color:green"></div>
+		<div id="admin_page" class="menu_option" onclick="document.location.href = './admin';" style="background-color:red"></div>
+	</div>
+</div>
 </body>
 </html>

@@ -314,16 +314,12 @@ function selectDates() {
 }
 
 function dateToString(_year, _month, _date) {
-	var monthStr = (_month <= 9) ? "0" + (_month + 1) : (_month + 1);
+	var monthStr = (_month < 9) ? "0" + (_month + 1) : (_month + 1);
 	var dateStr = (_date <= 9) ? "0" + _date : _date;
 	return _year + "-" + monthStr + "-" + dateStr;
 }
 
 function nextMonth() {
-	if (year == new Date().getFullYear() + 100 && month == 11) {
-		return;
-	} 
-	
 	if (month == 11) {
 		month = 0;
 		year++;
@@ -335,10 +331,6 @@ function nextMonth() {
 }
 
 function previousMonth() {
-	if (year == new Date().getFullYear() && month == new Date().getMonth()) {
-		return;
-	}
-	
 	if (month == 0) {
 		month = 11;
 		year--;

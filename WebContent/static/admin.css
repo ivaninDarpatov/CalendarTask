@@ -1,1 +1,62 @@
 @CHARSET "ISO-8859-1";
+
+#parent {
+	width: 100%;
+	display: inline-block;
+}
+
+#menu {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+
+.inner_col {
+	float: left;
+	width: 45%;
+	display: inline-block;
+}
+
+#left_panel {
+	margin-left: 5%;
+}
+
+#res_table {
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 25px 25px 0px 25px;
+}
+
+#res_table th, td {
+	width: 33%;
+	text-align: center;
+}
+
+.res_cell {
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.res_cost {
+	border-top: 1px solid black;
+}
+
+#total_cost {
+	float: right;
+	width: 33%;
+}
+
+#total_table {
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+#prices_update {
+	float: right;
+	display: inline-block;
+}
+
+.text_input {
+	text-align: center;
+}

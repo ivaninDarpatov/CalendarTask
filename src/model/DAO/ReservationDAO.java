@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import DBConnection.DBConnection;
 import model.Reservation;
@@ -74,7 +75,7 @@ public class ReservationDAO {
 		try {
 			PreparedStatement ps = con.prepareStatement(GET_ALL_RESERVATIONS_SQL);
 			ResultSet rs = ps.executeQuery();
-			Set<Reservation> result = new HashSet<Reservation>();
+			Set<Reservation> result = new TreeSet<Reservation>((r1, r2)->r1.isBefore(r2));
 			
 			while (rs.next()) {
 				LocalDate sDate = rs.getDate("start_date").toLocalDate();

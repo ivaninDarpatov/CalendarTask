@@ -45,12 +45,57 @@ public class AdminPanel extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String password = request.getParameter("password");
-		if (password.equals("123")) {
-			doGet(request, response);			
+		String status = "ok";
+		
+		String newPricesJSON = request.getHeader("newPrices");
+		Gson jsonMaker = new Gson();
+		String[] newPrices = jsonMaker.fromJson(newPricesJSON, String[].class);
+		
+		String weekday = newPrices[0];
+		String weekend = newPrices[1];
+		
+		float weekdayPrice;
+		float weekendPrice;
+		
+		if (weekday.equals("")) {
+			weekdayPrice = -1;
 		} else {
-			response.sendRedirect("index.jsp");
+			weekdayPrice = Float.parseFloat(weekday);
 		}
+		
+		if (weekend.equals("")) {
+			weekendPrice = -1;
+		} else {
+			weekendPrice = Float.parseFloat(weekend);
+		}
+		
+		try {			
+			float[] updatedPrices = new float[2];
+
+			if (weekdayPrice >= 0 && weekendPrice >= 0) {
+				PriceDAO.changeWeekdayPrice(weekdayPrice);
+				PriceDAO.changeWeekendPrice(weekendPrice);
+			} else {
+				if (weekdayPrice >= 0) {
+					PriceDAO.changeWeekdayPrice(weekdayPrice);
+				} else {
+					PriceDAO.changeWeekendPrice(weekendPrice);
+				}
+			}
+			
+			updatedPrices[0] = PriceDAO.getWeekdayPrice();
+			updatedPrices[1] = PriceDAO.getWeekendPrice();
+			
+			newPricesJSON = jsonMaker.toJson(updatedPrices);
+			response.addHeader("prices", newPricesJSON);	
+		} catch (Exception e) {
+			status = "fail";
+		}
+
+		response.addHeader("status", status);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("admin_panel.jsp");
+		rd.forward(request, response);
 	}
 
 }

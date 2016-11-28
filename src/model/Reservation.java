@@ -97,6 +97,10 @@ public class Reservation {
 		return result;
 	}
 	
+	public int isBefore(Reservation other) {
+		return (this.startingDate.isBefore(other.startingDate)) ? -1 : 1;
+	}
+	
 	public LocalDate getStartingDate() {
 		return this.startingDate;
 	}
