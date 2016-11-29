@@ -25,14 +25,12 @@
 #user_page {
 	background-color: #BABABA;
 	float: left;
-	border: 2px solid black;
 	border-radius: 25px 0px 0px 25px;
 }
 
 #admin_page {
 	background-color: #BABABA;
 	float: right;
-	border: 2px solid black;
 	border-radius: 0px 25px 25px 0px;
 }
 

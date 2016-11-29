@@ -24,7 +24,6 @@
 
 #res_table {
 	width: 100%;
-	border: 1px solid black;
 	border-radius: 25px 25px 0px 0px;
 	background-color: #E4E3F7;
 }
@@ -36,7 +35,6 @@
 
 .res_meta {
 	background-color: #9BB4BF;
-	border: 1px solid black;
 }
 
 #start {
@@ -49,19 +47,14 @@
 
 .res_start {
 	background-color: #88AC70;
-	border-top: 1px solid black;
-	border-right: 1px solid black;
 }
 
 .res_end {
 	background-color: #C0E3A8;
-	border-top: 1px solid black;
-	border-right: 1px solid black;
 }
 
 .res_cost {
 	background-color: #88AC70;
-	border-top: 1px solid black;
 }
 
 #total_cost {
@@ -70,13 +63,9 @@
 
 #total_table {
 	background-color: #E4E3F7;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
-	border-bottom: 1px solid black;
 }
 
 #total_meta {
-	border: 1px solid black;
 	background-color: #9BB4BF;
 }
 
@@ -87,16 +76,15 @@
 
 .stats_meta {
 	border-radius: 15px 15px 0px 0px;
-	border: 1px solid black;
 	background-color: #9BB4BF;
 }
 
 .text_input {
 	text-align: center;
+	border: none;
 }
 
 #update {
 	border-radius: 0px 0px 15px 15px;
-	border: 1px solid black;
 	background-color: #9BB4BF;
 }

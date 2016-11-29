@@ -90,7 +90,6 @@ function printCalendar() {
 
 		for (var j = 0; j < calendar2D[i].length; j++) {
 			var cell = document.createElement("td");
-			cell.style = "background-color: black";
 
 			if (i == 0 && firstDay.getDay() % 7 == (j + 1) % 7) {
 				print = true;
@@ -98,10 +97,10 @@ function printCalendar() {
 
 			if (print && date <= lastDay.getDate()) {
 				var dateString = dateToString(year, month, date);
-				cell.style.background = "#DCFEE9";
+				cell.style.background = "#8BD3F5";
 				
 				if (j % 7 == 5 || j % 7 == 6) {
-					cell.style.background = "#BCDDC9";
+					cell.style.background = "#6DAECC";
 				}
 				
 				cell.id = dateString;
@@ -113,7 +112,6 @@ function printCalendar() {
 					}
   					if (sDate == 0) {
 						highlight(this.id);
-						this.style.color = "black";
 					} else {
 						this.markDates();
 						selectDates();
@@ -133,7 +131,7 @@ function printCalendar() {
 					
 					if (sDate == 0) {
 						sDate = this.id;
-						this.style.borderColor = "white";
+						this.style.color = "white";
 					} else {						
 						if (sDate == this.id) {
 							if (eDate == this.id) {
@@ -171,7 +169,7 @@ function printCalendar() {
 						for (var count = 0; count < unmarkedDates.length; count++) {
 							var cellID = dateToString(unmarkedDates[count].getFullYear(), unmarkedDates[count].getMonth(), unmarkedDates[count].getDate());
 							
-							document.getElementById(cellID).style.borderColor= "black";
+							document.getElementById(cellID).style.color= "black";
 						}
 					}
 					
@@ -237,12 +235,12 @@ function printCalendar() {
 						
 						for (var count = 0; count < markedDates.length; count++) {
 							var cellID = dateToString(markedDates[count].getFullYear(), markedDates[count].getMonth(), markedDates[count].getDate());
-							document.getElementById(cellID).style.borderColor = "white";
+							document.getElementById(cellID).style.color = "white";
 						}
 						
 						for (var count = 0; count < unmarkedDates.length; count++) {
 							var cellID = dateToString(unmarkedDates[count].getFullYear(), unmarkedDates[count].getMonth(), unmarkedDates[count].getDate());
-							document.getElementById(cellID).style.borderColor = "black";
+							document.getElementById(cellID).style.color = "black";
 						}
 					}
 					reserveDates();	
@@ -334,7 +332,7 @@ function selectDates() {
 					} else {
 						el.style.background = "#2F8C53";
 					}
-					el.style.borderColor = "black";
+					el.style.color = "black";
 				}
 			}
 		}

@@ -64,7 +64,7 @@
 				<div id="prices_container" class="stats_container">
 					<table>
 						<tr>
-							<td align="center" colspan="2">prices</td>
+							<th align="center" colspan="2">prices</th>
 						</tr>
 						<tr>
 							<td class="stats_meta"><label>weekday:</label></td>
@@ -84,7 +84,7 @@
 				<div id="res_container" class="stats_container">
 					<table>
 						<tr>
-							<td align="center" colspan="3">your reservation</td>
+							<th align="center" colspan="3">your reservation</th>
 						</tr>
 						<tr>
 							<td class="stats_meta"><label>start:</label></td>
