@@ -67,12 +67,12 @@
 							<th align="center" colspan="2">prices</th>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>weekday:</label></td>
+							<td class="stats_meta"><label>weekday</label></td>
 							<td><input id="weekday" class="res_stats" type="text" value="1" disabled>
 							</td>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>weekend:</label></td>
+							<td class="stats_meta"><label>weekend</label></td>
 							<td><input id="weekend" class="res_stats" type="text" value="2" disabled>
 							</td>
 						</tr>
@@ -87,7 +87,7 @@
 							<th align="center" colspan="3">your reservation</th>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>start:</label></td>
+							<td class="stats_meta"><label>start</label></td>
 							<td><input id="start" class="res_stats" type="text" value="0" disabled>
 							</td>
 							<td id="reserve" onclick="reserveSelected()"
@@ -98,12 +98,12 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>end:</label></td>
+							<td class="stats_meta"><label>end</label></td>
 							<td><input id="end" class="res_stats" type="text" value="0" disabled>
 							</td>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>cost:</label></td>
+							<td class="stats_meta"><label>cost</label></td>
 							<td><input id="cost" class="res_stats" type="text" value="0" disabled>
 							</td>
 						</tr>

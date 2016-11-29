@@ -41,7 +41,7 @@
 			<div id="total_cost">
 				<table id="total_table">
 					<tr>
-						<td id="total_meta">total:</td>
+						<td id="total_meta">total</td>
 						<td><input id="total" class="text_input" type="text" disabled></td>
 					</tr>
 				</table>

@@ -321,7 +321,7 @@ function selectDates() {
 		selectedDates = getDates(startDate, endDate);
 		
 		for (var i = 0; i < selectedDates.length; i++) {
-			if (selectedDates[i].getMonth() == month) {
+			if (selectedDates[i].getMonth() == month && selectedDates[i].getFullYear() == year) {
 				var cellID = dateToString(year, month, selectedDates[i].getDate());
 				if (!isReserved(cellID)) {
 					var el = document.getElementById(cellID);
@@ -363,7 +363,7 @@ function previousMonth() {
 	} else {
 		month--;
 	}
-
+	
 	printCalendar();
 }
 

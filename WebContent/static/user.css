@@ -105,6 +105,7 @@
 }
 
 .stats_meta {
+	text-align: center;
 	border-radius: 15px 0px 0px 15px;
 	background-color: #9BB4BF;
 }

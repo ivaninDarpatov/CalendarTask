@@ -65,7 +65,7 @@ public class UserPanel extends HttpServlet {
 
 			Set<LocalDate> reservedDates = ReservationDAO.getAllReservedDates();
 			String reservedDatesJSON = jsonMaker.toJson(reservedDates);	
-			response.addHeader("reserved", reservedDatesJSON);		
+			response.setHeader("reserved", reservedDatesJSON);	
 		} catch (Exception e) {
 			status = "fail";
 		}
