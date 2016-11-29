@@ -64,6 +64,9 @@
 				<div id="prices_container" class="stats_container">
 					<table>
 						<tr>
+							<td align="center" colspan="2">prices</td>
+						</tr>
+						<tr>
 							<td class="stats_meta"><label>weekday:</label></td>
 							<td><input id="weekday" class="res_stats" type="text" value="1" disabled>
 							</td>
@@ -80,6 +83,9 @@
 			<div id="reservation" class="res_info">
 				<div id="res_container" class="stats_container">
 					<table>
+						<tr>
+							<td align="center" colspan="3">your reservation</td>
+						</tr>
 						<tr>
 							<td class="stats_meta"><label>start:</label></td>
 							<td><input id="start" class="res_stats" type="text" value="0" disabled>
