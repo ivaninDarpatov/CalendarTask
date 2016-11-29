@@ -2,26 +2,44 @@ var month = 0;
 var year = 0;
 var sDate = 0;
 var eDate = 0;
-var selectedDates;
-var reservedDates;
+var selectedDates = new Array();
+var reservedDates = new Array();
 
 function initialize() {
 	var prices = document.getElementById("prices_hidden").value;
 	prices = JSON.parse(prices);
 	document.getElementById("weekday").value = prices[0];
 	document.getElementById("weekend").value = prices[1];
-	
+
 	var today = new Date();
 	month = today.getMonth();
 	year = today.getFullYear();
-	
-	getReservedDates();
-	
+
+	getReserved();
+
 	printCalendar();
 }
 
-function getReservedDates() {
-	var dates = document.getElementById("reserved_hidden").value;
+function getReserved() {
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			if (this.getResponseHeader("status") == "ok") {
+				getReservedDates(this.getResponseHeader("reserved"));
+				reserveDates();
+			} else {
+				console.log(this.getResponseHeader("status"));
+			}
+		}
+	};
+	xhttp.open("POST", "./user", true);
+	xhttp.setRequestHeader("currentMonth", month + 1);
+	xhttp.setRequestHeader("currentYear", year);
+	xhttp.send();
+}
+
+function getReservedDates(dates) {
 	reservedDates = JSON.parse(dates);
 }
 
@@ -98,19 +116,16 @@ function printCalendar() {
 			if (print && date <= lastDay.getDate()) {
 				var dateString = dateToString(year, month, date);
 				cell.style.background = "#8BD3F5";
-				
+
 				if (j % 7 == 5 || j % 7 == 6) {
 					cell.style.background = "#6DAECC";
 				}
-				
+
 				cell.id = dateString;
 				cell.innerHTML = date++;
 				cell.realDate = new Date(cell.id);
 				cell.onmouseover = function() {
-					if (isReserved(this.id)) {
-						this.style.cursor = "not-allowed";
-					}
-  					if (sDate == 0) {
+					if (sDate == 0) {
 						highlight(this.id);
 					} else {
 						this.markDates();
@@ -128,11 +143,11 @@ function printCalendar() {
 					if (isReserved(this.id)) {
 						return;
 					}
-					
+
 					if (sDate == 0) {
 						sDate = this.id;
 						this.style.color = "white";
-					} else {						
+					} else {
 						if (sDate == this.id) {
 							if (eDate == this.id) {
 								sDate = 0;
@@ -148,13 +163,15 @@ function printCalendar() {
 								eDate = 0;
 								printCalendar();
 							} else {
-								if (containsReserved(sDate, this.id) || containsReserved(this.id, sDate)) {
+								if (containsReserved(sDate, this.id)
+										|| containsReserved(this.id, sDate)) {
 									return;
 								}
-								
+
 								eDate = this.id;
 								this.markDates();
 								selectDates();
+								reserveDates();
 							}
 						}
 						printCalendar();
@@ -162,88 +179,110 @@ function printCalendar() {
 					calculateCost();
 				}
 				cell.markDates = function() {
-					
+
 					if (sDate == eDate || sDate != 0 && eDate != 0) {
 						var unmarkedDates = getDates(firstDay, lastDay);
-						
+
 						for (var count = 0; count < unmarkedDates.length; count++) {
-							var cellID = dateToString(unmarkedDates[count].getFullYear(), unmarkedDates[count].getMonth(), unmarkedDates[count].getDate());
-							
-							document.getElementById(cellID).style.color= "black";
+							var cellID = dateToString(unmarkedDates[count]
+									.getFullYear(), unmarkedDates[count]
+									.getMonth(), unmarkedDates[count].getDate());
+
+							document.getElementById(cellID).style.color = "black";
 						}
 					}
-					
+
 					if (sDate != 0 && eDate == 0) {
 						var markedDates = new Array();
 						var unmarkedDates = new Array();
-						
+
 						var startDate = new Date(sDate);
 						var thisDate = new Date(this.id);
-						
+
 						if (isAfter(startDate, lastDay)) {
 							// mark all from this day to last day
 							if (thisDate.getDate() == firstDay.getDate()) {
 								markedDates = getDates(firstDay, lastDay);
 							} else {
-								var toDate = new Date(thisDate.getFullYear(), thisDate.getMonth(), thisDate.getDate() - 1);
+								var toDate = new Date(thisDate.getFullYear(),
+										thisDate.getMonth(),
+										thisDate.getDate() - 1);
 								markedDates = getDates(thisDate, lastDay);
 								unmarkedDates = getDates(firstDay, toDate);
 							}
 						}
-						
+
 						if (isAfter(firstDay, startDate)) {
 							// mark all from first day to this day
 							if (thisDate.getDate() == lastDay.getDate()) {
 								markedDates = getDates(firstDay, lastDay);
 							} else {
-								var fromDate = new Date(thisDate.getFullYear(), thisDate.getMonth(), thisDate.getDate() + 1);
+								var fromDate = new Date(thisDate.getFullYear(),
+										thisDate.getMonth(),
+										thisDate.getDate() + 1);
 								markedDates = getDates(firstDay, thisDate);
 								unmarkedDates = getDates(fromDate, lastDay);
 							}
 						}
-						
-						if (!isAfter(startDate, lastDay) && !isAfter(firstDay, startDate)) {
+
+						if (!isAfter(startDate, lastDay)
+								&& !isAfter(firstDay, startDate)) {
 							// mark all from this day to start date
 							if (isAfter(startDate, thisDate)) {
-								var toDate = new Date(thisDate.getFullYear(), thisDate.getMonth(), thisDate.getDate() - 1);
-								var fromDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1);
-								
+								var toDate = new Date(thisDate.getFullYear(),
+										thisDate.getMonth(),
+										thisDate.getDate() - 1);
+								var fromDate = new Date(
+										startDate.getFullYear(), startDate
+												.getMonth(), startDate
+												.getDate() + 1);
+
 								markedDates = getDates(thisDate, startDate);
-								
+
 								if (isAfter(thisDate, firstDay)) {
 									unmarkedDates = getDates(firstDay, toDate);
 								}
-								
+
 								if (isAfter(lastDay, startDate)) {
-									unmarkedDates = unmarkedDates.concat(getDates(fromDate, lastDay));
+									unmarkedDates = unmarkedDates
+											.concat(getDates(fromDate, lastDay));
 								}
 							} else {
-								var toDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - 1);
-								var fromDate = new Date(thisDate.getFullYear(), thisDate.getMonth(), thisDate.getDate() + 1);
-								
+								var toDate = new Date(startDate.getFullYear(),
+										startDate.getMonth(), startDate
+												.getDate() - 1);
+								var fromDate = new Date(thisDate.getFullYear(),
+										thisDate.getMonth(),
+										thisDate.getDate() + 1);
+
 								markedDates = getDates(startDate, thisDate);
-								
+
 								if (isAfter(startDate, firstDay)) {
 									unmarkedDates = getDates(firstDay, toDate);
 								}
-								
+
 								if (isAfter(lastDay, thisDate)) {
-									unmarkedDates = unmarkedDates.concat(getDates(fromDate, lastDay));
+									unmarkedDates = unmarkedDates
+											.concat(getDates(fromDate, lastDay));
 								}
 							}
 						}
-						
+
 						for (var count = 0; count < markedDates.length; count++) {
-							var cellID = dateToString(markedDates[count].getFullYear(), markedDates[count].getMonth(), markedDates[count].getDate());
+							var cellID = dateToString(markedDates[count]
+									.getFullYear(), markedDates[count]
+									.getMonth(), markedDates[count].getDate());
 							document.getElementById(cellID).style.color = "white";
 						}
-						
+
 						for (var count = 0; count < unmarkedDates.length; count++) {
-							var cellID = dateToString(unmarkedDates[count].getFullYear(), unmarkedDates[count].getMonth(), unmarkedDates[count].getDate());
+							var cellID = dateToString(unmarkedDates[count]
+									.getFullYear(), unmarkedDates[count]
+									.getMonth(), unmarkedDates[count].getDate());
 							document.getElementById(cellID).style.color = "black";
 						}
 					}
-					reserveDates();	
+					reserveDates();
 				}
 			}
 
@@ -267,43 +306,47 @@ function containsReserved(from, to) {
 	from = new Date(from);
 	to = new Date(to);
 	var datesRange = getDates(from, to);
-	
+
 	for (var j = 0; j < datesRange.length; j++) {
 		if (isReserved(datesRange[j])) {
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
 function isReserved(dateStr) {
 	var date = new Date(dateStr);
-	
+
 	for (var i = 0; i < reservedDates.length; i++) {
-		if (reservedDates[i].year == date.getFullYear() &&
-				reservedDates[i].month - 1 == date.getMonth() &&
-				reservedDates[i].day == date.getDate()) {
+		if (reservedDates[i].year == date.getFullYear()
+				&& reservedDates[i].month - 1 == date.getMonth()
+				&& reservedDates[i].day == date.getDate()) {
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
 function reserveDates() {
+	if (reservedDates == null) {
+		return;
+	}
+	
 	for (var i = 0; i < reservedDates.length; i++) {
-		if (reservedDates[i].year == year && reservedDates[i].month - 1 == month) {
-			var cellID = dateToString(year, month, reservedDates[i].day);
-			var el = document.getElementById(cellID);
-			var jsDay = new Date(cellID);
-			
-			if (jsDay.getDay() == 6 || jsDay.getDay() == 0) {
-				el.style.background = "#515151";
-			} else {
-				el.style.background = "#8E8E8E";
-			}
+		var cellID = dateToString(year, month, reservedDates[i].day);
+		var el = document.getElementById(cellID);
+		var jsDay = new Date(cellID);
+
+		if (jsDay.getDay() == 6 || jsDay.getDay() == 0) {
+			el.style.background = "#515151";
+		} else {
+			el.style.background = "#8E8E8E";
 		}
+		
+		el.style.cursor = "not-allowed";
 	}
 }
 
@@ -311,22 +354,24 @@ function selectDates() {
 	if (sDate != 0 && eDate != 0) {
 		var startDate = new Date(sDate);
 		var endDate = new Date(eDate);
-		
+
 		if (isAfter(startDate, endDate)) {
 			var temp = startDate;
 			startDate = endDate;
 			endDate = temp;
 		}
-		
+
 		selectedDates = getDates(startDate, endDate);
-		
+
 		for (var i = 0; i < selectedDates.length; i++) {
-			if (selectedDates[i].getMonth() == month && selectedDates[i].getFullYear() == year) {
-				var cellID = dateToString(year, month, selectedDates[i].getDate());
+			if (selectedDates[i].getMonth() == month
+					&& selectedDates[i].getFullYear() == year) {
+				var cellID = dateToString(year, month, selectedDates[i]
+						.getDate());
 				if (!isReserved(cellID)) {
 					var el = document.getElementById(cellID);
 					var jsDay = new Date(cellID);
-					
+
 					if (jsDay.getDay() == 6 || jsDay.getDay() == 0) {
 						el.style.background = "#134827";
 					} else {
@@ -352,6 +397,10 @@ function nextMonth() {
 	} else {
 		month++;
 	}
+	
+	reservedDates = null;
+	
+	getReserved();
 
 	printCalendar();
 }
@@ -364,6 +413,10 @@ function previousMonth() {
 		month--;
 	}
 	
+	reservedDates = null;
+
+	getReserved();
+
 	printCalendar();
 }
 
@@ -394,7 +447,7 @@ function calculateCost() {
 	var startHolder = document.getElementById("start");
 	var endHolder = document.getElementById("end");
 	var costHolder = document.getElementById("cost");
-	
+
 	if (isAfter(new Date(sDate), new Date(eDate)) && eDate != 0) {
 		endHolder.value = sDate;
 		startHolder.value = eDate;
@@ -402,7 +455,7 @@ function calculateCost() {
 		startHolder.value = sDate;
 		endHolder.value = eDate;
 	}
-	
+
 	if (sDate == 0) {
 		costHolder.value = 0;
 	} else {
@@ -412,7 +465,7 @@ function calculateCost() {
 			eDate = sDate;
 			eChanged = true;
 		}
-		
+
 		var startDate = new Date(sDate);
 		var endDate = new Date(eDate);
 
@@ -435,7 +488,7 @@ function calculateCost() {
 				resultCost += JSON.parse(weekdayPrice);
 			}
 		}
-		
+
 		costHolder.value = JSON.stringify(resultCost);
 		if (eChanged) {
 			eDate = 0;
@@ -443,42 +496,43 @@ function calculateCost() {
 	}
 }
 
-function reserveSelected() {	
+function reserveSelected() {
 	var from = document.getElementById("start").value;
 	var to = document.getElementById("end").value;
 	var cost = document.getElementById("cost").value;
-	
+
 	var newRes = new Array();
 	newRes.push(from);
 	newRes.push(to);
 	newRes.push(cost);
-	
+
 	if (from == 0 || to == 0) {
 		return;
 	}
-	
+
 	var xhttp = new XMLHttpRequest();
 
-	  xhttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-		     if (this.getResponseHeader("status") == "ok") {
-			     sDate = 0;
-			     eDate = 0;
-			     selectedDates = new Array();
-			     document.getElementById("reserved_hidden").value = this.getResponseHeader("reserved");
-			     getReservedDates();
-			     reserveDates();
-			     printCalendar();
-	
-			     document.getElementById("start").value = 0;
-			     document.getElementById("end").value = 0;
-			     document.getElementById("cost").value = 0;
-		     } else {
-		    	 console.log(this.getResponseHeader("status"));
-		     }
-		    }
-		  };
-		xhttp.open("POST", "./user", true);
-		xhttp.setRequestHeader("toReserve", JSON.stringify(newRes));
-		xhttp.send();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			if (this.getResponseHeader("status") == "ok") {
+				sDate = 0;
+				eDate = 0;
+				selectedDates = new Array();
+				getReservedDates(this.getResponseHeader("reserved"));
+				reserveDates();
+				printCalendar();
+
+				document.getElementById("start").value = 0;
+				document.getElementById("end").value = 0;
+				document.getElementById("cost").value = 0;
+			} else {
+				console.log(this.getResponseHeader("status"));
+			}
+		}
+	};
+	xhttp.open("POST", "./user", true);
+	xhttp.setRequestHeader("toReserve", JSON.stringify(newRes));
+	xhttp.setRequestHeader("currentMonth", month + 1);
+	xhttp.setRequestHeader("currentYear", year);
+	xhttp.send();
 }

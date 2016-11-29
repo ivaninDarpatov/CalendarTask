@@ -46,15 +46,15 @@
 }
 
 .res_start {
-	background-color: #88AC70;
+	background-color: #C4D7CC;
 }
 
 .res_end {
-	background-color: #C0E3A8;
+	background-color: #D6EBDE;
 }
 
 .res_cost {
-	background-color: #88AC70;
+	background-color: #C4D7CC;
 }
 
 #total_cost {
@@ -76,8 +76,15 @@
 }
 
 .stats_meta {
-	border-radius: 15px 15px 0px 0px;
 	background-color: #9BB4BF;
+}
+
+#weekday_meta {
+	border-radius: 15px 0px 0px 0px;
+}
+
+#weekend_meta {
+	border-radius: 0px 15px 0px 0px;
 }
 
 .text_input {

@@ -22,20 +22,15 @@ public class UserPanel extends HttpServlet {
 	private static final long serialVersionUID = 5948471139866223109L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Set<LocalDate> reservedDates;
 		float[] prices = new float[2];
 		
 		try {
 			Gson jsonMaker = new Gson();
 			
-			reservedDates = ReservationDAO.getAllReservedDates();
-			String reservedDatesJSON = jsonMaker.toJson(reservedDates);
-			
 			prices[0] = PriceDAO.getWeekdayPrice();
 			prices[1] = PriceDAO.getWeekendPrice();
 			String pricesJSON = jsonMaker.toJson(prices);
 			
-			request.setAttribute("reservedDates", reservedDatesJSON);
 			request.setAttribute("prices", pricesJSON);
 		} catch (Exception e) {
 			request.setAttribute("error", e.getMessage());
@@ -47,24 +42,38 @@ public class UserPanel extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String status = "ok";
-		
-		String newResJSON = request.getHeader("toReserve");
-		Gson jsonMaker = new Gson();
-		String[] newRes = jsonMaker.fromJson(newResJSON, String[].class);
-		
-		String startDate = newRes[0];
-		String endDate = newRes[1];
-		String costStr = newRes[2];
-		
-		LocalDate sDate = LocalDate.parse(startDate);
-		LocalDate eDate = LocalDate.parse(endDate);
-		float cost = Float.parseFloat(costStr);
-		
-		try {			
-			ReservationDAO.addReservation(new Reservation(sDate, eDate, cost));
 
-			Set<LocalDate> reservedDates = ReservationDAO.getAllReservedDates();
+		String newResJSON = request.getHeader("toReserve");
+		int month = Integer.parseInt(request.getHeader("currentMonth"));
+		int year = Integer.parseInt(request.getHeader("currentYear"));
+		Gson jsonMaker = new Gson();
+
+		if (newResJSON != null) {
+			
+			newResJSON = request.getHeader("toReserve");
+			String[] newRes = jsonMaker.fromJson(newResJSON, String[].class);
+			
+			String startDate = newRes[0];
+			String endDate = newRes[1];
+			String costStr = newRes[2];
+			
+			LocalDate sDate = LocalDate.parse(startDate);
+			LocalDate eDate = LocalDate.parse(endDate);
+			float cost = Float.parseFloat(costStr);
+			
+			try {			
+				ReservationDAO.addReservation(new Reservation(sDate, eDate, cost));
+			} catch (Exception e) {
+				status = "fail";
+			}
+		}
+
+		
+		Set<LocalDate> reservedDates;
+		try {
+			reservedDates = ReservationDAO.getAllReservedDatesByMonth(month, year);
 			String reservedDatesJSON = jsonMaker.toJson(reservedDates);	
+			
 			response.setHeader("reserved", reservedDatesJSON);	
 		} catch (Exception e) {
 			status = "fail";

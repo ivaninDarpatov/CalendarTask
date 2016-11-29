@@ -37,6 +37,7 @@
 	width: 5%;
 	height: 100%;
 	float: left;
+	opacity: 0.6;
 }
 
 .empty_top {
@@ -106,14 +107,20 @@
 
 .stats_meta {
 	text-align: center;
-	border-radius: 15px 0px 0px 15px;
 	background-color: #9BB4BF;
+}
+
+#weekday_meta, #start_meta {
+	border-radius: 15px 0px 0px 0px;
+}
+
+#weekend_meta, #cost_meta {
+	border-radius: 0px 0px 0px 15px;
 }
 
 .res_stats {
 	text-align: center;
 	border: none;
-	border-radius: 10px;
 }
 
 #prices_container {

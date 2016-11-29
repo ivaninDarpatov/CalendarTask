@@ -101,4 +101,17 @@ public class ReservationDAO {
 		
 		return result;
 	}
+	
+	public static Set<LocalDate> getAllReservedDatesByMonth(int month, int year) throws Exception {
+		Set<LocalDate> allDates = ReservationDAO.getAllReservedDates();
+		Set<LocalDate> result = new HashSet<LocalDate>();
+		
+		for (LocalDate date : allDates) {
+			if (date.getMonthValue() == month && date.getYear() == year) {
+				result.add(date);
+			}
+		}
+		
+		return result;
+	}
 }

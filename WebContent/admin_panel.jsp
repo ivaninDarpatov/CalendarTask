@@ -55,8 +55,8 @@
 					</tr>
 
 					<tr>
-						<th class="stats_meta">weekday</th>
-						<th class="stats_meta">weekend</th>
+						<th id="weekday_meta" class="stats_meta">weekday</th>
+						<th id="weekend_meta" class="stats_meta">weekend</th>
 					</tr>
 
 					<tr>

@@ -17,7 +17,6 @@
 
 </head>
 <body onload="initialize()">
-	<input id="reserved_hidden" type="hidden" value='${reservedDates}' />
 	<input id="prices_hidden" type="hidden" value='${prices}' />
 
 	<div id="parent">
@@ -27,12 +26,11 @@
 							onmouseout="deHighlight('menu')">BACK</div>
 		</div>
 		<div id="cal_area" class="row">
-			<div id="cal_container" class="cal_row"
-				style="background-color: green">
+			<div id="cal_container" class="cal_row">
 				<div id="back" class="cal_nav"
 						onclick="previousMonth()"
-						onmouseover="this.style.background='#D7D7D7'"
-						onmouseout="this.style.background=''">
+						onmouseover="this.style.opacity='1'"
+						onmouseout="this.style.opacity='0.6'">
 					<div class="empty_top"></div>
 					<div id="left_arrow" class="nav_img">
 						<img class="arrow" src="static/img/left_arrow.png">
@@ -49,8 +47,8 @@
 
 				<div id="forward" class="cal_nav"
 						onclick="nextMonth()"
-						onmouseover="this.style.background='#D7D7D7'"
-						onmouseout="this.style.background=''">
+						onmouseover="this.style.opacity='1'"
+						onmouseout="this.style.opacity='0.6'">
 					<div id="right_arrow" class="empty_top"></div>
 					<div class="nav_img">
 						<img class="arrow" src="static/img/right_arrow.png">
@@ -67,12 +65,12 @@
 							<th align="center" colspan="2">prices</th>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>weekday</label></td>
+							<td id="weekday_meta" class="stats_meta"><label>weekday</label></td>
 							<td><input id="weekday" class="res_stats" type="text" value="1" disabled>
 							</td>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>weekend</label></td>
+							<td id="weekend_meta" class="stats_meta"><label>weekend</label></td>
 							<td><input id="weekend" class="res_stats" type="text" value="2" disabled>
 							</td>
 						</tr>
@@ -87,10 +85,10 @@
 							<th align="center" colspan="3">your reservation</th>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>start</label></td>
+							<td id="start_meta" class="stats_meta"><label>start</label></td>
 							<td><input id="start" class="res_stats" type="text" value="0" disabled>
 							</td>
-							<td id="reserve" onclick="reserveSelected()"
+							<td id="reserve"onclick="reserveSelected()"
 											onmouseover="highlight('reserve')"
 											onmouseout="deHighlight('reserve')"
 											rowspan="3">
@@ -103,7 +101,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="stats_meta"><label>cost</label></td>
+							<td id="cost_meta" class="stats_meta"><label>cost</label></td>
 							<td><input id="cost" class="res_stats" type="text" value="0" disabled>
 							</td>
 						</tr>
