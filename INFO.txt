@@ -1,0 +1,4 @@
+User Panel:
+-reserved dates marked grey
+-selected dates marked green
+-weekend dates marked darker

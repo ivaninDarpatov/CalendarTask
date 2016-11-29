@@ -24,7 +24,7 @@
 #res_table {
 	width: 100%;
 	border: 1px solid black;
-	border-radius: 25px 25px 0px 25px;
+	border-radius: 25px 25px 0px 0px;
 	background-color: #E4E3F7;
 }
 
@@ -61,10 +61,6 @@
 .res_cost {
 	background-color: #88AC70;
 	border-top: 1px solid black;
-}
-
-#start_last {
-	border-radius: 0px 0px 0px 30px;
 }
 
 #total_cost {

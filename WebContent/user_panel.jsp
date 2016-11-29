@@ -29,7 +29,10 @@
 		<div id="cal_area" class="row">
 			<div id="cal_container" class="cal_row"
 				style="background-color: green">
-				<div id="back" class="cal_nav" onclick="previousMonth()">
+				<div id="back" class="cal_nav"
+						onclick="previousMonth()"
+						onmouseover="this.style.background='#D7D7D7'"
+						onmouseout="this.style.background=''">
 					<div class="empty_top"></div>
 					<div id="left_arrow" class="nav_img">
 						<img class="arrow" src="static/img/left_arrow.png">
@@ -44,7 +47,10 @@
 					<div id="days"></div>
 				</div>
 
-				<div id="forward" class="cal_nav" onclick="nextMonth()">
+				<div id="forward" class="cal_nav"
+						onclick="nextMonth()"
+						onmouseover="this.style.background='#D7D7D7'"
+						onmouseout="this.style.background=''">
 					<div id="right_arrow" class="empty_top"></div>
 					<div class="nav_img">
 						<img class="arrow" src="static/img/right_arrow.png">
