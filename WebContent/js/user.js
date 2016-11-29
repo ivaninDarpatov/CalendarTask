@@ -148,7 +148,7 @@ function printCalendar() {
 								eDate = 0;
 								printCalendar();
 							} else {
-								if (containsReserved(sDate, this.id)) {
+								if (containsReserved(sDate, this.id) || containsReserved(this.id, sDate)) {
 									return;
 								}
 								

@@ -5,6 +5,7 @@ html,body {
 	font-family: Lucida Console;
 	font-weight: bold;
 	background-color: #B8D7E6;
+	cursor: default;
 }
 
 #parent {
